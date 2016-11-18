@@ -1,26 +1,26 @@
 ﻿'Adad drawing, replace checking with indexOf(), add comments,
 Public Class Hangman
     Dim inputWord As String = InputBox("Input your word. Leave blank if you want to use a random word.", "Select a Word", )
-    Dim displayWordArray(inputWord.Length * 2) As String
-    Dim wordArray(inputWord.Length) As String
+    Dim wordArray(inputWord.Length - 1) As String
+    Dim displayWordArray(inputWord.Length * 2 - 1) As String
     Dim incorrectGuesses As Integer = 0
-    Dim randomWords(15) As String = {"rich", "wage", "cat", "exit", "hay", "tube", "inside", "urgency", "company", "team", "art", "rice", "plane", "fear", "talk"}
-
+    Dim randomWords() As String = {"rich", "wage", "cat", "exit", "hay", "tube", "inside", "urgency", "company", "team", "art", "rice", "plane", "fear", "talk"}
+    
     Private Sub Hangman_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim displayString As String = Nothing
         Dim randomNumber As Integer
-        lblLetters.Text = Nothing
-
         If inputWord = Nothing Then 'Sets random word if no word is specified
             Randomize()
-            randomNumber = Math.Floor((15) * Rnd()))
+            randomNumber = Math.Floor((15) * Rnd())
             inputWord = randomWords(randomNumber)
+            ReDim displayWordArray(inputWord.Length * 2 - 1)
+            ReDim wordArray(inputWord.Length - 1)
         End If
-
+        lblLetters.Text = Nothing
         For stringIndex As Integer = 0 To inputWord.Length - 1 'Defines arrays for the word and for the progress
             wordArray(stringIndex) = UCase(inputWord.Chars(stringIndex))
-            displayWordArray((stringIndex + 1) * 2 - 1) = "_"
-            displayWordArray((stringIndex + 1) * 2) = " "
+            displayWordArray((stringIndex + 1) * 2 - 2) = "_"
+            displayWordArray(stringIndex * 2 + 1) = " "
             displayString = displayString & "_ "
         Next stringIndex
         lblLetters.Text = RTrim(displayString)
@@ -34,10 +34,10 @@ Public Class Hangman
         Else
             For arrayIndex As Integer = 0 To (inputWord.Length - 1)
                 If UCase(txtGuess.Text) = wordArray(arrayIndex) Then
-                    displayWordArray((arrayIndex + 1) * 2 - 1) = wordArray(arrayIndex)
+                    displayWordArray(arrayIndex * 2) = wordArray(arrayIndex)
                     correct = True
                 End If
-                labelOutput = labelOutput & displayWordArray((arrayIndex + 1) * 2 - 1) & " "
+                labelOutput = labelOutput & displayWordArray(arrayIndex * 2) & " "
             Next arrayIndex
             lblLetters.Text = RTrim(labelOutput)
             If correct = False Then
