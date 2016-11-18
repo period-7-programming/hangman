@@ -1,11 +1,10 @@
-﻿'Adad drawing, replace checking with indexOf(), add comments,
-Public Class Hangman
+﻿Public Class Hangman
     Dim inputWord As String = InputBox("Input your word. Leave blank if you want to use a random word.", "Select a Word", )
     Dim wordArray(inputWord.Length - 1) As String
     Dim displayWordArray(inputWord.Length * 2 - 1) As String
     Dim incorrectGuesses As Integer = 0
     Dim randomWords() As String = {"rich", "wage", "cat", "exit", "hay", "tube", "inside", "urgency", "company", "team", "art", "rice", "plane", "fear", "talk"}
-    
+
     Private Sub Hangman_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim displayString As String = Nothing
         Dim randomNumber As Integer
@@ -32,7 +31,7 @@ Public Class Hangman
         If txtGuess.Text = Nothing Then
 
         Else
-            For arrayIndex As Integer = 0 To (inputWord.Length - 1)
+            For arrayIndex As Integer = 0 To (inputWord.Length - 1) 'Check Guess
                 If UCase(txtGuess.Text) = wordArray(arrayIndex) Then
                     displayWordArray(arrayIndex * 2) = wordArray(arrayIndex)
                     correct = True
@@ -40,9 +39,9 @@ Public Class Hangman
                 labelOutput = labelOutput & displayWordArray(arrayIndex * 2) & " "
             Next arrayIndex
             lblLetters.Text = RTrim(labelOutput)
-            If correct = False Then
+            If correct = False Then 'Deals with incorrect guess
                 incorrectGuesses += 1
-                If lblWrongGuesses.Text = Nothing Then
+                If lblWrongGuesses.Text = Nothing Then 'Adds guess to label of wrong guesses
                     lblWrongGuesses.Text = UCase(txtGuess.Text)
                 Else
                     lblWrongGuesses.Text = lblWrongGuesses.Text & ", " & UCase(txtGuess.Text)
@@ -55,7 +54,7 @@ Public Class Hangman
     End Sub
 
     Private Sub DisplayHangman()
-        If incorrectGuesses = 1 Then
+        If incorrectGuesses = 1 Then 'Updates drawing depending on number of wrong guesses
             Stand()
         ElseIf incorrectGuesses = 2 Then
             StandArm()
@@ -117,16 +116,16 @@ Public Class Hangman
         surface.DrawLine(pen1, 76, 115, 82, 109)
         surface.DrawLine(pen1, 87, 109, 93, 115) 'eye2
         surface.DrawLine(pen1, 87, 115, 93, 109)
-        For index As Integer = 0 To inputWord.Length - 1
+        For index As Integer = 0 To inputWord.Length - 1 'Finishes word
             output = output & wordArray(index) & " "
         Next index
         lblLetters.Text = RTrim(output)
-        MessageBox.Show("You lose                                   ", "Game Over")
+        MessageBox.Show("You lose                                   ", "Game Over") 'Lose popup
     End Sub
 
     Private Sub CheckWin()
-        If Array.IndexOf(displayWordArray, "_") = -1 Then
-            MessageBox.Show("You Win                                   ", "Victory")
+        If Array.IndexOf(displayWordArray, "_") = -1 Then 'Check if they won
+            MessageBox.Show("You Win                                   ", "Victory") 'Win popup
         End If
     End Sub
 
