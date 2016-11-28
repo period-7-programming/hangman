@@ -131,6 +131,7 @@
 
     Private Sub CheckWin()
         If Array.IndexOf(displayWordArray, "_") = -1 Then 'Check if they won
+            ' SUGGEST: Why the spaces? Also, if you are going to create lots of spaces look into visual basic's space function!
             MessageBox.Show("You Win                                   ", "Victory") 'Win popup
         End If
     End Sub

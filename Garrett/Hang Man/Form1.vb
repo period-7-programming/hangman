@@ -1,10 +1,11 @@
 ﻿' SUGGEST: Make sure you add spacing to your code for readability.
 Public Class Form1
+    ' SUGGEST: Be careful when calling user interface "things" with global variables. It is hard to predict when this inputbox will occur. Consider moving this elsewhere.
     Dim inputWord As String = InputBox("Input word", "Select Word",)
     Dim word(inputWord.Length - 1) As String
     ' SUGGEST: Consider using a boolean array here. As a general practice don't use strings (or arrays of them) to store data.
     Dim displayed(word.Length) As String
-    ' SUGGEST: Store this in a list. We'll discuss this in class on Tuesday.
+    ' SUGGEST: This may be better as a list. We'll discuss this in class on Tuesday.
     Dim wrongGuesses As String
     Dim bodyParts As Integer = 0 'when its equal to 7 you lose
     Public Sub btnGuess_Click(sender As Object, e As EventArgs) Handles btnGuess.Click
@@ -37,7 +38,7 @@ Public Class Form1
         lblWord.Text = RTrim(lblWord.Text)
         txtInput.Text = Nothing
         draw()
-        ' SUGGEST: Why the spaces? Also, if you are going to create lots of spaces look into visual basic's space function
+        ' SUGGEST: Why the spaces? Also, if you are going to create lots of spaces look into visual basic's space function!
         If gameWon = True Then 'pops up message box with restart, quit on game win
             MessageBox.Show("You Win                                             ", "You Are A Winner")
         End If
@@ -45,6 +46,7 @@ Public Class Form1
             MessageBox.Show("You Lose                                             ", "You Are A Loser")
         End If
     End Sub
+    ' SUGGEST: Make sure to paint in OnPaint events. Otherwise odd things can happen if the window gets updated by the system.
     Private Sub draw()
         Dim brownPen As New Pen(Color.Brown, 3)
         Dim thickPen As New Pen(Color.Black, 3)
