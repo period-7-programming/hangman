@@ -1,7 +1,10 @@
-﻿Public Class Form1
+﻿' SUGGEST: Make sure you add spacing to your code for readability.
+Public Class Form1
     Dim inputWord As String = InputBox("Input word", "Select Word",)
     Dim word(inputWord.Length - 1) As String
+    ' SUGGEST: Consider using a boolean array here. As a general practice don't use strings (or arrays of them) to store data.
     Dim displayed(word.Length) As String
+    ' SUGGEST: Store this in a list. We'll discuss this in class on Tuesday.
     Dim wrongGuesses As String
     Dim bodyParts As Integer = 0 'when its equal to 7 you lose
     Public Sub btnGuess_Click(sender As Object, e As EventArgs) Handles btnGuess.Click
@@ -21,6 +24,7 @@
             End If
         Next
         If GuessedWrong = True Then
+            ' SUGGEST: Store this in a list. We'll discuss this in class on Tuesday.
             wrongGuesses += UCase(txtInput.Text) + " "
             lblWrongGuesses.Text += UCase(txtInput.Text) + " "
             bodyParts += 1
@@ -33,6 +37,7 @@
         lblWord.Text = RTrim(lblWord.Text)
         txtInput.Text = Nothing
         draw()
+        ' SUGGEST: Why the spaces? Also, if you are going to create lots of spaces look into visual basic's space function
         If gameWon = True Then 'pops up message box with restart, quit on game win
             MessageBox.Show("You Win                                             ", "You Are A Winner")
         End If
@@ -100,6 +105,7 @@
             lblWord.Text = RTrim(lblWord.Text)
         End If
     End Sub
+    ' SUGGEST: You might not need to restart the entire application...
     Private Sub btnRestart_Click(sender As Object, e As EventArgs) Handles btnRestart.Click
         Application.Restart()
     End Sub

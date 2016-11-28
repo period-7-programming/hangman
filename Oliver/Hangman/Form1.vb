@@ -28,11 +28,15 @@
     Private Sub btnCheck_Click(sender As Object, e As EventArgs) Handles btnCheck.Click
         Dim correct As Boolean = False
         Dim labelOutput As String = Nothing
+        ' SUGGEST: Empty if statement? Use the 'not equal' operator.
         If txtGuess.Text = Nothing Then
 
         Else
             For arrayIndex As Integer = 0 To (inputWord.Length - 1) 'Check Guess
                 If UCase(txtGuess.Text) = wordArray(arrayIndex) Then
+                    ' SUGGEST: I would suggest not using a string array to store the "output".
+                    ' Instead, consider generating the output based on a boolean array or something similar.
+                    ' Relying on spaces to be in the array, etc. can get messy and hard to debug quickly.
                     displayWordArray(arrayIndex * 2) = wordArray(arrayIndex)
                     correct = True
                 End If
@@ -50,6 +54,7 @@
             txtGuess.Text = Nothing
         End If
         CheckWin()
+        ' SUGGEST: Only paint in a paint method, so the painting persists between window updates.
         DisplayHangman()
     End Sub
 
@@ -120,6 +125,7 @@
             output = output & wordArray(index) & " "
         Next index
         lblLetters.Text = RTrim(output)
+        ' SUGGEST: Don't mix game logic with painting. Keep things seperate if possible.
         MessageBox.Show("You lose                                   ", "Game Over") 'Lose popup
     End Sub
 
@@ -130,6 +136,7 @@
     End Sub
 
     Private Sub btnNewGame_Click(sender As Object, e As EventArgs) Handles btnNewGame.Click
+        ' SUGGEST: Do you need to restart the whole application?
         Application.Restart()
     End Sub
 End Class
