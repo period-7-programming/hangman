@@ -1,23 +1,22 @@
-﻿Imports System.IO
-
 Public Class Hangman
-    Dim randomWordsStream As New FileStream("dictionary.txt", FileMode.Open, FileAccess.Read)
-    Dim randomWordsReader As New StreamReader(randomWordsStream)
-    Dim lineCount As Integer = File.ReadAllLines("dictionary.txt").Length
-
     Dim inputWord As String = InputBox("Input your word. Leave blank if you want to use a random word.", "Select a Word", )
     Dim wordArray(inputWord.Length - 1) As String
     Dim displayWordArray(inputWord.Length * 2 - 1) As String
     Dim incorrectGuesses As Integer = 0
-    'Dim randomWords() As String = {"rich", "wage", "cat", "exit", "hay", "tube", "inside", "urgency", "company", "team", "art", "rice", "plane", "fear", "talk"}
+    Dim randomWords() As String = {"rich", "wage", "cat", "exit", "hay", "tube", "inside", "urgency", "company", "team", "art", "rice", "plane", "fear", "talk"}
+    Dim playing As Boolean
 
     Private Sub Hangman_Load(sender As Object, e As EventArgs) Handles Me.Load
+        playing = True
         Dim displayString As String = Nothing
+        Dim randomNumber As Integer
         If inputWord = Nothing Then 'Sets random word if no word is specified
-            inputWord = randomWord()
+            Randomize()
+            randomNumber = Math.Floor((15) * Rnd())
+            inputWord = randomWords(randomNumber)
+            ReDim displayWordArray(inputWord.Length * 2 - 1)
+            ReDim wordArray(inputWord.Length - 1)
         End If
-        ReDim wordArray(inputWord.Length - 1)
-        ReDim displayWordArray(inputWord.Length * 2 - 1)
         lblLetters.Text = Nothing
         For stringIndex As Integer = 0 To inputWord.Length - 1 'Defines arrays for the word and for the progress
             wordArray(stringIndex) = UCase(inputWord.Chars(stringIndex))
@@ -31,11 +30,12 @@ Public Class Hangman
     Private Sub btnCheck_Click(sender As Object, e As EventArgs) Handles btnCheck.Click
         Dim correct As Boolean = False
         Dim labelOutput As String = Nothing
-        If txtGuess.Text = Nothing Then
-
-        Else
+        If (txtGuess.Text IsNot Nothing) And (playing = True) And (lblLetters.Text.contians(txtGuess.Text) = False) Then
             For arrayIndex As Integer = 0 To (inputWord.Length - 1) 'Check Guess
                 If UCase(txtGuess.Text) = wordArray(arrayIndex) Then
+                    ' SUGGEST: I would suggest not using a string array to store the "output".
+                    ' Instead, consider generating the output based on a boolean array or something similar.
+                    ' Relying on spaces to be in the array, etc. can get messy and hard to debug quickly.
                     displayWordArray(arrayIndex * 2) = wordArray(arrayIndex)
                     correct = True
                 End If
@@ -51,9 +51,18 @@ Public Class Hangman
                 End If
             End If
             txtGuess.Text = Nothing
+            CheckWin()
+            ' SUGGEST: Only paint in a paint method, so the painting persists between window updates.
+            DisplayHangman()
+            If incorrectGuesses = 6 Then
+                For index As Integer = 0 To inputWord.Length - 1 'Finishes word
+                    output = output & wordArray(index) & " "
+                Next index
+                lblLetters.Text = RTrim(output)
+                MessageBox.Show("You lose" & Space(30), "Game Over") 'Lose popup
+                playing = False
+            End If
         End If
-        CheckWin()
-        DisplayHangman()
     End Sub
 
     Private Sub DisplayHangman()
@@ -119,30 +128,32 @@ Public Class Hangman
         surface.DrawLine(pen1, 76, 115, 82, 109)
         surface.DrawLine(pen1, 87, 109, 93, 115) 'eye2
         surface.DrawLine(pen1, 87, 115, 93, 109)
-        For index As Integer = 0 To inputWord.Length - 1 'Finishes word
-            output = output & wordArray(index) & " "
-        Next index
-        lblLetters.Text = RTrim(output)
-        MessageBox.Show("You lose                                   ", "Game Over") 'Lose popup
     End Sub
 
     Private Sub CheckWin()
         If Array.IndexOf(displayWordArray, "_") = -1 Then 'Check if they won
-            MessageBox.Show("You Win                                   ", "Victory") 'Win popup
+            MessageBox.Show("You Win" & Space(30), "Victory") 'Win popup
+            playing = False
         End If
     End Sub
 
     Private Sub btnNewGame_Click(sender As Object, e As EventArgs) Handles btnNewGame.Click
-        Application.Restart()
+        playing = True
+        displayString = Nothing
+        If inputWord = Nothing Then 'Sets random word if no word is specified
+            Randomize()
+            randomNumber = Math.Floor((15) * Rnd())
+            inputWord = randomWords(randomNumber)
+            ReDim displayWordArray(inputWord.Length * 2 - 1)
+            ReDim wordArray(inputWord.Length - 1)
+        End If
+        lblLetters.Text = Nothing
+        For stringIndex As Integer = 0 To inputWord.Length - 1 'Defines arrays for the word and for the progress
+            wordArray(stringIndex) = UCase(inputWord.Chars(stringIndex))
+            displayWordArray((stringIndex + 1) * 2 - 2) = "_"
+            displayWordArray(stringIndex * 2 + 1) = " "
+            displayString = displayString & "_ "
+        Next stringIndex
+        lblLetters.Text = RTrim(displayString)
     End Sub
-
-    Private Function randomWord()
-        Randomize()
-        Dim lineNumber As Integer = Math.Floor(lineCount * Rnd()) + 1
-        Dim word As String
-        For currentLineNumber As Integer = 0 To lineNumber
-            word = randomWordsReader.ReadLine()
-        Next
-        Return word
-    End Function
 End Class
