@@ -1,13 +1,14 @@
-﻿' SUGGEST: Make sure you add spacing to your code for readability.
+﻿Imports System.IO
 Public Class Form1
-    ' SUGGEST: Be careful when calling user interface "things" with global variables. It is hard to predict when this inputbox will occur. Consider moving this elsewhere.
-    Dim inputWord As String = InputBox("Input word", "Select Word",)
-    Dim word(inputWord.Length - 1) As String
-    ' SUGGEST: Consider using a boolean array here. As a general practice don't use strings (or arrays of them) to store data.
-    Dim displayed(word.Length) As String
-    ' SUGGEST: This may be better as a list. We'll discuss this in class on Tuesday.
+
+    Dim randomWordStream As New FileStream("dictionary.txt", FileMode.Open, FileAccess.Read)
+    Dim randomWordReader As New StreamReader(randomWordStream)
+
+    Dim word() As String
+    Dim displayed() As String
     Dim wrongGuesses As String
     Dim bodyParts As Integer = 0 'when its equal to 7 you lose
+
     Public Sub btnGuess_Click(sender As Object, e As EventArgs) Handles btnGuess.Click
         Dim Input As String = UCase(txtInput.Text)
         lblWord.Text = Nothing
@@ -25,7 +26,6 @@ Public Class Form1
             End If
         Next
         If GuessedWrong = True Then
-            ' SUGGEST: Store this in a list. We'll discuss this in class on Tuesday.
             wrongGuesses += UCase(txtInput.Text) + " "
             lblWrongGuesses.Text += UCase(txtInput.Text) + " "
             bodyParts += 1
@@ -38,51 +38,99 @@ Public Class Form1
         lblWord.Text = RTrim(lblWord.Text)
         txtInput.Text = Nothing
         draw()
-        ' SUGGEST: Why the spaces? Also, if you are going to create lots of spaces look into visual basic's space function!
         If gameWon = True Then 'pops up message box with restart, quit on game win
-            MessageBox.Show("You Win                                             ", "You Are A Winner")
+            MessageBox.Show("You Win" & Space(45), "You Are A Winner")
         End If
         If bodyParts >= 7 Then 'pops up message box with restart, quit on game lose
-            MessageBox.Show("You Lose                                             ", "You Are A Loser")
+            MessageBox.Show("You Lose" & Space(45), "You Are A Loser")
         End If
     End Sub
-    ' SUGGEST: Make sure to paint in OnPaint events. Otherwise odd things can happen if the window gets updated by the system.
+
     Private Sub draw()
         Dim brownPen As New Pen(Color.Brown, 3)
         Dim thickPen As New Pen(Color.Black, 3)
         Dim BlackPen As New Pen(Color.Black, 1)
         Dim blackFill As New SolidBrush(Color.Black)
         Dim whiteFill As New SolidBrush(Color.White)
-        Dim formSurface As Graphics = CreateGraphics()
+        Dim formSurface As Graphics = PictureBox1.CreateGraphics
         If bodyParts = 1 Then 'draws stand, head
             'draws stand
-            formSurface.DrawLine(brownPen, 95, 150, 95, 100)
-            formSurface.DrawLine(brownPen, 97, 100, 29, 100)
-            formSurface.DrawEllipse(brownPen, 90, 150, 10, 20)
-            formSurface.DrawLine(brownPen, 30, 100, 30, 300)
-            formSurface.DrawLine(brownPen, 20, 300, 120, 300)
+            formSurface.DrawLine(brownPen, 95, 100, 95, 50)
+            formSurface.DrawLine(brownPen, 97, 50, 29, 50)
+            formSurface.DrawEllipse(brownPen, 90, 100, 10, 20)
+
+            formSurface.DrawLine(brownPen, 30, 50, 30, 250)
+            formSurface.DrawLine(brownPen, 20, 250, 120, 250)
             'draws head
-            formSurface.FillEllipse(whiteFill, 82, 140, 25, 25)
-            formSurface.DrawEllipse(BlackPen, 82, 140, 25, 25)
+            formSurface.FillEllipse(whiteFill, 82, 90, 25, 25)
+            formSurface.DrawEllipse(BlackPen, 82, 90, 25, 25)
         ElseIf bodyParts = 2 Then 'draws body
-            formSurface.DrawLine(BlackPen, 95, 165, 95, 220)
+            formSurface.DrawLine(BlackPen, 95, 115, 95, 170)
         ElseIf bodyParts = 3 Then 'draws left arm
-            formSurface.DrawLine(BlackPen, 95, 170, 80, 210)
+            formSurface.DrawLine(BlackPen, 95, 120, 80, 160)
         ElseIf bodyParts = 4 Then ' draws right arm
-            formSurface.DrawLine(BlackPen, 95, 170, 110, 210)
+            formSurface.DrawLine(BlackPen, 95, 120, 110, 160)
         ElseIf bodyParts = 5 Then 'draws left leg
-            formSurface.DrawLine(BlackPen, 95, 220, 80, 260)
+            formSurface.DrawLine(BlackPen, 95, 170, 80, 210)
         ElseIf bodyParts = 6 Then 'draws right leg
-            formSurface.DrawLine(BlackPen, 95, 220, 110, 260)
+            formSurface.DrawLine(BlackPen, 95, 170, 110, 210)
         ElseIf bodyParts = 7 Then 'draws hat
-            formSurface.DrawLine(thickPen, 80, 145, 110, 145)
-            formSurface.FillRectangle(blackFill, 85, 120, 20, 25)
+            formSurface.DrawLine(thickPen, 80, 95, 110, 95)
+            formSurface.FillRectangle(blackFill, 85, 70, 20, 25)
         End If
     End Sub
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Dim randomWords() As String = {"Hello", "Cat", "Car", "Moist", "Cake", "Confuse", "Internet Explorer", "Slop", "Evasive", "Trade"}
+
+    Private Function RandomWords()
         Randomize()
-        Dim randomword As String = randomWords(Math.Floor(10 * Rnd()))
+        Dim randomword As String = Nothing
+        Dim lineAmmount As Integer = File.ReadAllLines("dictionary.txt").Length
+        Dim linenumber As Integer = Math.Floor((lineAmmount - 1) * Rnd())
+        For i As Integer = 0 To linenumber
+            randomword = randomWordReader.ReadLine()
+        Next
+        Return randomword
+    End Function
+
+    
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Dim inputWord As String = InputBox("InputWord", "Input Word",)
+
+        Dim randomword As String = RandomWords()
+        If inputword.Length < 1 Then 'takes the inputbox input and puts it into word() if input is longer than one letter
+            ReDim word(randomword.Length - 1)
+            ReDim displayed(word.Length)
+            For inputIndex As Integer = 0 To randomword.Length - 1
+                word(inputIndex) = UCase(randomword.Chars(inputIndex))
+            Next
+            'loads the displayed array with "- " for however long the word is
+            For i As Integer = 0 To word.Length - 1
+                displayed(i) = "- "
+                lblWord.Text += displayed(i)
+            Next
+            lblWord.Text = RTrim(lblWord.Text)
+        Else
+            ReDim word(inputWord.Length - 1)
+            ReDim displayed(word.Length)
+            For inputIndex As Integer = 0 To inputword.Length - 1
+                word(inputIndex) = UCase(inputWord.Chars(inputIndex))
+            Next
+            'loads the displayed array with "- " for however long the word is
+            For i As Integer = 0 To word.Length - 1
+                displayed(i) = "- "
+                lblWord.Text += displayed(i)
+            Next
+            lblWord.Text = RTrim(lblWord.Text)
+        End If
+    End Sub
+
+    Public Sub btnRestart_Click(sender As Object, e As EventArgs) Handles btnRestart.Click
+        lblWord.Text = Nothing
+        wrongGuesses = Nothing
+        lblWrongGuesses.Text = Nothing
+        PictureBox1.Image = Nothing
+        bodyParts = 0
+        Dim inputWord As String = InputBox("InputWord", "Input Word",)
+        Dim randomword As String = RandomWords()
         If inputWord.Length < 1 Then 'takes the inputbox input and puts it into word() if input is longer than one letter
             ReDim word(randomword.Length - 1)
             ReDim displayed(word.Length)
@@ -96,6 +144,8 @@ Public Class Form1
             Next
             lblWord.Text = RTrim(lblWord.Text)
         Else
+            ReDim word(inputWord.Length - 1)
+            ReDim displayed(word.Length)
             For inputIndex As Integer = 0 To inputWord.Length - 1
                 word(inputIndex) = UCase(inputWord.Chars(inputIndex))
             Next
@@ -106,9 +156,5 @@ Public Class Form1
             Next
             lblWord.Text = RTrim(lblWord.Text)
         End If
-    End Sub
-    ' SUGGEST: You might not need to restart the entire application...
-    Private Sub btnRestart_Click(sender As Object, e As EventArgs) Handles btnRestart.Click
-        Application.Restart()
     End Sub
 End Class

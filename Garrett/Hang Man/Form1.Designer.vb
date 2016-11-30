@@ -28,13 +28,15 @@ Partial Class Form1
         Me.lblWrongGuesses = New System.Windows.Forms.Label()
         Me.lblMessage = New System.Windows.Forms.Label()
         Me.btnRestart = New System.Windows.Forms.Button()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnGuess
         '
-        Me.btnGuess.Location = New System.Drawing.Point(222, 161)
+        Me.btnGuess.Location = New System.Drawing.Point(270, 125)
         Me.btnGuess.Name = "btnGuess"
-        Me.btnGuess.Size = New System.Drawing.Size(75, 23)
+        Me.btnGuess.Size = New System.Drawing.Size(100, 23)
         Me.btnGuess.TabIndex = 0
         Me.btnGuess.Text = "Guess"
         Me.btnGuess.UseVisualStyleBackColor = True
@@ -42,15 +44,15 @@ Partial Class Form1
         'lblWord
         '
         Me.lblWord.Font = New System.Drawing.Font("Courier New", 26.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblWord.Location = New System.Drawing.Point(12, 41)
+        Me.lblWord.Location = New System.Drawing.Point(12, 15)
         Me.lblWord.Name = "lblWord"
-        Me.lblWord.Size = New System.Drawing.Size(360, 47)
+        Me.lblWord.Size = New System.Drawing.Size(486, 47)
         Me.lblWord.TabIndex = 1
         Me.lblWord.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'txtInput
         '
-        Me.txtInput.Location = New System.Drawing.Point(210, 135)
+        Me.txtInput.Location = New System.Drawing.Point(270, 99)
         Me.txtInput.MaxLength = 1
         Me.txtInput.Name = "txtInput"
         Me.txtInput.Size = New System.Drawing.Size(100, 20)
@@ -60,7 +62,7 @@ Partial Class Form1
         'lblWrongGuesses
         '
         Me.lblWrongGuesses.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblWrongGuesses.Location = New System.Drawing.Point(162, 221)
+        Me.lblWrongGuesses.Location = New System.Drawing.Point(256, 195)
         Me.lblWrongGuesses.Name = "lblWrongGuesses"
         Me.lblWrongGuesses.Size = New System.Drawing.Size(210, 131)
         Me.lblWrongGuesses.TabIndex = 3
@@ -68,7 +70,7 @@ Partial Class Form1
         'lblMessage
         '
         Me.lblMessage.AutoSize = True
-        Me.lblMessage.Location = New System.Drawing.Point(220, 198)
+        Me.lblMessage.Location = New System.Drawing.Point(256, 172)
         Me.lblMessage.Name = "lblMessage"
         Me.lblMessage.Size = New System.Drawing.Size(83, 13)
         Me.lblMessage.TabIndex = 4
@@ -76,18 +78,27 @@ Partial Class Form1
         '
         'btnRestart
         '
-        Me.btnRestart.Location = New System.Drawing.Point(2, 335)
+        Me.btnRestart.Location = New System.Drawing.Point(378, 162)
         Me.btnRestart.Name = "btnRestart"
         Me.btnRestart.Size = New System.Drawing.Size(55, 23)
         Me.btnRestart.TabIndex = 5
         Me.btnRestart.Text = "Restart"
         Me.btnRestart.UseVisualStyleBackColor = True
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.Location = New System.Drawing.Point(12, 71)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(184, 262)
+        Me.PictureBox1.TabIndex = 6
+        Me.PictureBox1.TabStop = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(384, 361)
+        Me.ClientSize = New System.Drawing.Size(510, 348)
+        Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.btnRestart)
         Me.Controls.Add(Me.lblMessage)
         Me.Controls.Add(Me.lblWrongGuesses)
@@ -96,6 +107,7 @@ Partial Class Form1
         Me.Controls.Add(Me.btnGuess)
         Me.Name = "Form1"
         Me.Text = "Hang Man"
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -107,4 +119,5 @@ Partial Class Form1
     Friend WithEvents lblWrongGuesses As Label
     Friend WithEvents lblMessage As Label
     Friend WithEvents btnRestart As Button
+    Friend WithEvents PictureBox1 As PictureBox
 End Class
