@@ -29,11 +29,13 @@ Partial Class Hangman
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblWrongGuesses = New System.Windows.Forms.Label()
         Me.btnNewGame = New System.Windows.Forms.Button()
+        Me.ptbHangman = New System.Windows.Forms.PictureBox()
+        CType(Me.ptbHangman, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lblLetters
         '
-        Me.lblLetters.Font = New System.Drawing.Font("Courier New", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLetters.Font = New System.Drawing.Font("Courier New", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLetters.Location = New System.Drawing.Point(12, 19)
         Me.lblLetters.Name = "lblLetters"
         Me.lblLetters.Size = New System.Drawing.Size(263, 50)
@@ -92,12 +94,21 @@ Partial Class Hangman
         Me.btnNewGame.Text = "New Game"
         Me.btnNewGame.UseVisualStyleBackColor = True
         '
+        'ptbHangman
+        '
+        Me.ptbHangman.Location = New System.Drawing.Point(12, 77)
+        Me.ptbHangman.Name = "ptbHangman"
+        Me.ptbHangman.Size = New System.Drawing.Size(125, 175)
+        Me.ptbHangman.TabIndex = 8
+        Me.ptbHangman.TabStop = False
+        '
         'Hangman
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSize = True
         Me.ClientSize = New System.Drawing.Size(284, 261)
+        Me.Controls.Add(Me.ptbHangman)
         Me.Controls.Add(Me.btnNewGame)
         Me.Controls.Add(Me.lblWrongGuesses)
         Me.Controls.Add(Me.Label2)
@@ -107,6 +118,7 @@ Partial Class Hangman
         Me.Controls.Add(Me.lblLetters)
         Me.Name = "Hangman"
         Me.Text = "Hangman"
+        CType(Me.ptbHangman, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -119,4 +131,5 @@ Partial Class Hangman
     Friend WithEvents Label2 As Label
     Friend WithEvents lblWrongGuesses As Label
     Friend WithEvents btnNewGame As Button
+    Friend WithEvents ptbHangman As PictureBox
 End Class
