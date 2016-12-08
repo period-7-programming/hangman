@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class Form1
+Partial Class HangManGarrett
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -87,13 +87,13 @@ Partial Class Form1
         '
         'PictureBox1
         '
-        Me.PictureBox1.Location = New System.Drawing.Point(12, 71)
+        Me.PictureBox1.Location = New System.Drawing.Point(19, 65)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(184, 262)
         Me.PictureBox1.TabIndex = 6
         Me.PictureBox1.TabStop = False
         '
-        'Form1
+        'HangManGarrett
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -105,7 +105,7 @@ Partial Class Form1
         Me.Controls.Add(Me.txtInput)
         Me.Controls.Add(Me.lblWord)
         Me.Controls.Add(Me.btnGuess)
-        Me.Name = "Form1"
+        Me.Name = "HangManGarrett"
         Me.Text = "Hang Man"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
